@@ -11,7 +11,7 @@ import (
 
 const (
 	httpExpiresAfter       = time.Second * 30
-	httpRequestTimeout     = time.Second * 5
+	httpRequestTimeout     = time.Second * 1
 	httpMaxIdleConnections = 20
 )
 

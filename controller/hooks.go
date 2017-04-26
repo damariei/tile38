@@ -485,41 +485,13 @@ func (h *Hook) proc() (ok bool) {
 	for i, key := range keys {
 		val := vals[i]
 		idx := stringToUint64(key[len(hookLogPrefix):])
-		var sent bool
 		for _, endpoint := range h.Endpoints {
 			err := h.epm.Send(endpoint, val)
 			if err != nil {
 				log.Debugf("Endpoint connect/send error: %v: %v: %v", idx, endpoint, err)
 				continue
 			}
-			sent = true
 			break
-		}
-		if !sent {
-			// failed to send. try to reinsert the remaining. if this fails we lose log entries.
-			keys = keys[i:]
-			vals = vals[i:]
-			if hookLogTTL > 0 {
-				ttls = ttls[i:]
-			}
-			h.db.Update(func(tx *buntdb.Tx) error {
-				for i, key := range keys {
-					val := vals[i]
-					var opts *buntdb.SetOptions
-					if hookLogTTL > 0 {
-						opts = &buntdb.SetOptions{
-							Expires: true,
-							TTL:     ttls[i],
-						}
-					}
-					_, _, err := tx.Set(key, val, opts)
-					if err != nil {
-						return err
-					}
-				}
-				return nil
-			})
-			return false
 		}
 	}
 	return true

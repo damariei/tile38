@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION="1.9.0"
+VERSION="1.9.1"
 PROTECTED_MODE="no"
 
 # Hardcode some values to the core package
@@ -65,9 +65,9 @@ if [ "$GOVERS" != "devel" ]; then
 		return
 	}
 	GOVERS="${GOVERS:2}"
-	EQRES=$(vercomp "$GOVERS" "1.5")  
+	EQRES=$(vercomp "$GOVERS" "1.5")
 	if [ "$EQRES" == "-1" ]; then
-		  echo "error: Go '1.5' or greater is required and '$GOVERS' is currently installed. Please upgrade Go at https://golang.org/dl to continue."	
+		  echo "error: Go '1.5' or greater is required and '$GOVERS' is currently installed. Please upgrade Go at https://golang.org/dl to continue."
 		  exit 1
 	fi
 fi
@@ -114,7 +114,7 @@ if [ "$1" == "package" ]; then
 fi
 
 if [ "$1" == "vendor" ]; then
-	pkg="$2"	
+	pkg="$2"
 	if [ "$pkg" == "" ]; then
 		echo "no package specified"
 		exit
@@ -178,5 +178,3 @@ if [ "$1" == "cover" ]; then
 	trap testend EXIT
 	go test -cover $(go list ./... | grep -v /vendor/)
 fi
-
-
