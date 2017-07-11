@@ -1,16 +1,16 @@
 <p align="center">
-  <a href="http://tile38.com"><img 
-    src="/doc/logo1500.png" 
+  <a href="http://tile38.com"><img
+    src="/doc/logo1500.png"
     width="200" height="200" border="0" alt="Tile38"></a>
 </p>
 <p align="center">
 <a href="https://gitter.im/tile38/tile38?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"></a>
-<a href="https://github.com/tidwall/tile38/releases"><img src="https://img.shields.io/badge/version-1.9.0-green.svg?" alt="Version"></a>
+<a href="https://github.com/tidwall/tile38/releases"><img src="https://img.shields.io/badge/version-1.9.2-green.svg?" alt="Version"></a>
 <a href="https://travis-ci.org/tidwall/tile38"><img src="https://travis-ci.org/tidwall/tile38.svg?branch=master" alt="Build Status"></a>
 <a href="https://hub.docker.com/r/tile38/tile38"><img src="https://img.shields.io/badge/docker-ready-blue.svg" alt="Docker Ready"></a>
 </p>
 
-Tile38 is an open source (MIT licensed), in-memory geolocation data store, spatial index, and realtime geofence. It supports a variety of object types including lat/lon points, bounding boxes, XYZ tiles, Geohashes, and GeoJSON. 
+Tile38 is an open source (MIT licensed), in-memory geolocation data store, spatial index, and realtime geofence. It supports a variety of object types including lat/lon points, bounding boxes, XYZ tiles, Geohashes, and GeoJSON.
 
 <p align="center">
 <i>This README is quick start document. You can find detailed documentation at <a href="http://tile38.com">http://tile38.com</a>.</i><br><br>
@@ -49,7 +49,7 @@ Mac users who use Homebrew can install with `brew install tile38`.
 
 Tile38 is also available as a [Docker image](https://hub.docker.com/r/tile38/tile38/) which is built on top of [Alpine Linux](https://alpinelinux.org/).
 
-### Building Tile38 
+### Building Tile38
 
 Tile38 can be compiled and used on Linux, OSX, Windows, FreeBSD, and probably others since the codebase is 100% Go. We support both 32 bit and 64 bit systems. [Go](https://golang.org/dl/) must be installed on the build machine.
 
@@ -63,7 +63,7 @@ To test:
 $ make test
 ```
 
-## Running 
+## Running
 For command line options invoke:
 ```
 $ ./tile38-server -h
@@ -80,9 +80,9 @@ $ ./tile38-cli
 ```
 
 ## Coordinate System
-It's important to note that the coordinate system Tile38 uses is 
-[WGS 84 Web Mercator](https://en.wikipedia.org/wiki/Web_Mercator), also known 
-as EPSG:3857. All distance are in meters and all calcuations are done on a spherical surface, 
+It's important to note that the coordinate system Tile38 uses is
+[WGS 84 Web Mercator](https://en.wikipedia.org/wiki/Web_Mercator), also known
+as EPSG:3857. All distance are in meters and all calcuations are done on a spherical surface,
 not a plane.
 
 ## <a name="cli"></a>Playing with Tile38
@@ -102,13 +102,13 @@ $ ./tile38-cli
 # key value operations
 > get fleet truck1                           # returns 'truck1'
 > del fleet truck2                           # deletes 'truck2'
-> drop fleet                                 # removes all 
+> drop fleet                                 # removes all
 ```
 
 Tile38 has a ton of [great commands](http://tile38.com/commands).
 
 ## Fields
-Fields are extra data that belongs to an object. A field is always a double precision floating point. There is no limit to the number of fields that an object can have. 
+Fields are extra data that belongs to an object. A field is always a double precision floating point. There is no limit to the number of fields that an object can have.
 
 To set a field when setting an object:
 ```
@@ -127,7 +127,7 @@ Tile38 has support to search for objects and points that are within or intersect
 
 <img src="/doc/search-within.png" width="200" height="200" border="0" alt="Search Within" align="left">
 
-#### Within 
+#### Within
 WITHIN searches a collection for objects that are fully contained inside a specified bounding area.
 <BR CLEAR="ALL">
 
@@ -159,7 +159,7 @@ You can choose a value between 1 and 8. The value 1 will result in no more than 
 <td>Sparse 4<img src="/doc/sparse-4.png" width="100" height="100" border="0" alt="Search Within"></td>
 <td>Sparse 5<img src="/doc/sparse-5.png" width="100" height="100" border="0" alt="Search Within"></td>
 </table>
-*Please note that the higher the sparse value, the slower the performance. Also, LIMIT and CURSOR are not available when using SPARSE.* 
+*Please note that the higher the sparse value, the slower the performance. Also, LIMIT and CURSOR are not available when using SPARSE.*
 
 **WHERE** - This option allows for filtering out results based on [field](#fields) values. For example<br>```nearby fleet where speed 70 +inf point 33.462 -112.268 6000``` will return only the objects in the 'fleet' collection that are within the 6 km radius **and** have a field named `speed` that is greater than `70`. <br><br>Multiple WHEREs are concatenated as **and** clauses. ```WHERE speed 70 +inf WHERE age -inf 24``` would be interpreted as *speed is over 70 <b>and</b> age is less than 24.*<br><br>The default value for a field is always `0`. Thus if you do a WHERE on the field `speed` and an object does not have that field set, the server will pretend that the object does and that the value is Zero.
 
@@ -175,7 +175,7 @@ You can choose a value between 1 and 8. The value 1 will result in no more than 
 ## Geofencing
 
 <img src="/doc/geofence.gif" width="200" height="200" border="0" alt="Geofence animation" align="left">
-A <a href="https://en.wikipedia.org/wiki/Geo-fence">geofence</a> is a virtual boundary that can detect when an object enters or exits the area. This boundary can be a radius, bounding box, or a polygon. Tile38 can turn any standard search into a geofence monitor by adding the FENCE keyword to the search. 
+A <a href="https://en.wikipedia.org/wiki/Geo-fence">geofence</a> is a virtual boundary that can detect when an object enters or exits the area. This boundary can be a radius, bounding box, or a polygon. Tile38 can turn any standard search into a geofence monitor by adding the FENCE keyword to the search.
 
 *Tile38 also allows for [Webhooks](http://tile38.com/commands/sethook) to be assigned to Geofences.*
 
@@ -195,7 +195,7 @@ And the connection will be kept open. If any object enters or exits the 6 km rad
 {"command":"set","detect":"enter","id":"truck02","object":{"type":"Point","coordinates":[-112.2695,33.4626]}}
 ```
 
-The server will notify the client if the `command` is `del | set | drop`. 
+The server will notify the client if the `command` is `del | set | drop`.
 
 - `del` notifies the client that an object has been deleted from the collection that is being fenced.
 - `drop` notifies the client that the entire collection is dropped.
@@ -226,7 +226,7 @@ A bounding box consists of two points. The first being the southwestern most poi
 set fleet truck1 bounds 30 -110 40 -100
 ```
 #### Geohash
-A [geohash](https://en.wikipedia.org/wiki/Geohash) is a string respresentation of a point. With the length of the string indicating the precision of the point. 
+A [geohash](https://en.wikipedia.org/wiki/Geohash) is a string respresentation of a point. With the length of the string indicating the precision of the point.
 ```
 set fleet truck1 hash 9tbnthxzr # this would be equivlent to 'point 33.5123 -112.2693'
 ```
@@ -284,12 +284,12 @@ set fleet truck3 point 33.4762 -112.10923
 
 The server will respond in [JSON](http://json.org) or [RESP](http://redis.io/topics/protocol) depending on which protocol is used when initiating the first command.
 
-- HTTP and Websockets use JSON. 
+- HTTP and Websockets use JSON.
 - Telnet and RESP clients use RESP.
 
 ## Client Libraries
 
-Tile38 uses the [Redis RESP](http://redis.io/topics/protocol) protocol natively. Therefore most clients that support basic Redis commands will in turn support Tile38. Below are a few of the popular clients. 
+Tile38 uses the [Redis RESP](http://redis.io/topics/protocol) protocol natively. Therefore most clients that support basic Redis commands will in turn support Tile38. Below are a few of the popular clients.
 
 - C: [hiredis](https://github.com/redis/hiredis)
 - C#: [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis)

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION="1.9.1"
+VERSION="1.9.2"
 PROTECTED_MODE="no"
 
 # Hardcode some values to the core package
@@ -29,48 +29,48 @@ fi
 
 # Check go version
 GOVERS="$(go version | cut -d " " -f 3)"
-if [ "$GOVERS" != "devel" ]; then
-	vercomp () {
-		if [[ $1 == $2 ]]
-		then
-			echo "0"
-			return
-		fi
-		local IFS=.
-		local i ver1=($1) ver2=($2)
-		# fill empty fields in ver1 with zeros
-		for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
-		do
-			ver1[i]=0
-		done
-		for ((i=0; i<${#ver1[@]}; i++))
-		do
-			if [[ -z ${ver2[i]} ]]
-			then
-				# fill empty fields in ver2 with zeros
-				ver2[i]=0
-			fi
-			if ((10#${ver1[i]} > 10#${ver2[i]}))
-			then
-				echo "1"
-				return
-			fi
-			if ((10#${ver1[i]} < 10#${ver2[i]}))
-			then
-				echo "-1"
-				return
-			fi
-		done
-		echo "0"
-		return
-	}
-	GOVERS="${GOVERS:2}"
-	EQRES=$(vercomp "$GOVERS" "1.5")
-	if [ "$EQRES" == "-1" ]; then
-		  echo "error: Go '1.5' or greater is required and '$GOVERS' is currently installed. Please upgrade Go at https://golang.org/dl to continue."
-		  exit 1
-	fi
-fi
+# if [ "$GOVERS" != "devel" ]; then
+# 	vercomp () {
+# 		if [[ $1 == $2 ]]
+# 		then
+# 			echo "0"
+# 			return
+# 		fi
+# 		local IFS=.
+# 		local i ver1=($1) ver2=($2)
+# 		# fill empty fields in ver1 with zeros
+# 		for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
+# 		do
+# 			ver1[i]=0
+# 		done
+# 		for ((i=0; i<${#ver1[@]}; i++))
+# 		do
+# 			if [[ -z ${ver2[i]} ]]
+# 			then
+# 				# fill empty fields in ver2 with zeros
+# 				ver2[i]=0
+# 			fi
+# 			if ((10#${ver1[i]} > 10#${ver2[i]}))
+# 			then
+# 				echo "1"
+# 				return
+# 			fi
+# 			if ((10#${ver1[i]} < 10#${ver2[i]}))
+# 			then
+# 				echo "-1"
+# 				return
+# 			fi
+# 		done
+# 		echo "0"
+# 		return
+# 	}
+# 	GOVERS="${GOVERS:2}"
+# 	EQRES=$(vercomp "$GOVERS" "1.5")
+# 	if [ "$EQRES" == "-1" ]; then
+# 		  echo "error: Go '1.5' or greater is required and '$GOVERS' is currently installed. Please upgrade Go at https://golang.org/dl to continue."
+# 		  exit 1
+# 	fi
+# fi
 
 export GO15VENDOREXPERIMENT=1
 
